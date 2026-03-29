@@ -1,519 +1,407 @@
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bj:#6d28d9;--bj2:#7c3aed;--bj3:#8b5cf6;--bj4:#a78bfa;--bjg:#c4b5fd;
-  --bg1:#1e1b2e;--bg2:#2a2040;--bg3:#16122a;--card:#251d3a;
-  --bdr:#4c3d7a;--txt:#e9e4ff;--mut:#9b8fd4;
-  --gr:#22c55e;--rd:#f43f5e;--am:#f59e0b;--cy:#06b6d4;--pk:#ec4899;
-}
-body{background:var(--bg1);color:var(--txt);font-family:var(--font-sans,'Arial',sans-serif)}
-.root{padding:14px}
-.hdr{text-align:center;padding:14px 0 10px;border-bottom:1px solid var(--bdr);margin-bottom:14px}
-.hdr-t{font-size:19px;font-weight:500;color:#fff}
-.hdr-s{font-size:11px;color:var(--mut);margin-top:3px}
-.tabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
-.tab{flex:1;min-width:110px;padding:8px 6px;border-radius:8px;border:1px solid var(--bdr);background:transparent;color:var(--mut);font-size:11px;cursor:pointer;text-align:center;transition:all .2s}
-.tab.on{background:var(--bj2);border-color:var(--bj3);color:#fff;font-weight:500}
-.g2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;margin-bottom:12px}
-.g3{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr);gap:10px;margin-bottom:12px}
-.g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:12px}
-.card{background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:12px}
-.ct{font-size:10px;font-weight:500;color:var(--mut);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
-.kpi{background:var(--card);border:1px solid var(--bdr);border-radius:10px;padding:10px;text-align:center}
-.kl{font-size:10px;color:var(--mut);margin-bottom:4px}
-.kv{font-size:18px;font-weight:500;line-height:1}
-.kb{font-size:10px;margin-top:3px}
-.pos{color:var(--gr)}.neg{color:var(--rd)}.amb{color:var(--am)}.cy{color:var(--cy)}.pk{color:var(--pk)}
-.sl{margin-bottom:10px}
-.sh{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
-.sn{font-size:11px;color:var(--txt)}
-.sv{font-size:11px;font-weight:500;color:var(--bjg);min-width:52px;text-align:right}
-input[type=range]{width:100%;height:4px;border-radius:2px;accent-color:var(--bj3);cursor:pointer}
-.cw{position:relative;width:100%}
-canvas{display:block;width:100%!important}
-.leg{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px;font-size:11px;color:var(--mut)}
-.legi{display:flex;align-items:center;gap:4px}
-.legsq{width:10px;height:10px;border-radius:2px;flex-shrink:0}
-.vs-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;margin-bottom:8px}
-.vs-box{border-radius:8px;padding:10px}
-.vs-old{background:#3d1a2a;border:1px solid #7f1d3a}
-.vs-new{background:#132a1e;border:1px solid #166534}
-.vs-label{font-size:10px;font-weight:500;margin-bottom:6px;text-transform:uppercase;letter-spacing:.4px}
-.vs-stat{font-size:13px;margin-bottom:2px}
-.phase-strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:12px}
-.ph{border-radius:10px;padding:10px;border:1px solid var(--bdr)}
-.ph1{background:#1a0a30;border-color:#6d28d9}
-.ph2{background:#0c1f30;border-color:#0369a1}
-.ph3{background:#0a2018;border-color:#15803d}
-.ph-t{font-size:11px;font-weight:500;margin-bottom:4px}
-.ph-d{font-size:10px;color:var(--mut);line-height:1.5}
-.insight{background:var(--bg2);border-left:3px solid var(--bj3);border-radius:0 8px 8px 0;padding:9px 11px;font-size:11px;color:var(--mut);line-height:1.6;margin-top:10px}
-.insight strong{color:var(--bjg)}
-.meter{height:6px;border-radius:3px;background:var(--bg3);overflow:hidden;margin-top:4px}
-.mf{height:100%;border-radius:3px;transition:width .4s}
-.tbl{width:100%;border-collapse:collapse;font-size:10px;table-layout:fixed}
-.tbl th{background:var(--bg3);color:var(--mut);padding:6px 5px;text-align:right;font-weight:500;white-space:nowrap;border-bottom:1px solid var(--bdr)}
-.tbl th:first-child{text-align:left}
-.tbl td{padding:5px 5px;border-bottom:1px solid var(--bdr);text-align:right;color:var(--txt)}
-.tbl td:first-child{text-align:left;color:var(--bjg)}
-.tbl tr:last-child td{border-bottom:none;font-weight:500}
-.tneg{color:var(--rd)}.tpos{color:var(--gr)}.tamb{color:var(--am)}
-.competitor-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr);gap:8px;margin-bottom:10px}
-.cmp{border-radius:8px;padding:9px;border:1px solid var(--bdr)}
-.cmp-name{font-size:11px;font-weight:500;margin-bottom:6px}
-.cmp-row{display:flex;justify-content:space-between;font-size:10px;color:var(--mut);margin-bottom:2px}
-.cmp-val{color:var(--txt)}
-.badge{display:inline-block;font-size:9px;padding:2px 7px;border-radius:4px;font-weight:500}
-.b-red{background:#3d0d15;color:#f87171}
-.b-green{background:#0a2e14;color:#4ade80}
-.b-amber{background:#2e1a04;color:#fbbf24}
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: var(--font-sans); }
+  body { background: transparent; }
+  :root {
+    --teal-dark: #0F6E56; --teal-mid: #1D9E75; --teal-light: #9FE1CB; --teal-xlight: #E1F5EE;
+    --blue-dark: #185FA5; --blue-mid: #378ADD; --blue-light: #B5D4F4; --blue-xlight: #E6F1FB;
+    --text: var(--color-text-primary); --text2: var(--color-text-secondary);
+    --bg: var(--color-background-primary); --bg2: var(--color-background-secondary);
+    --border: var(--color-border-tertiary);
+  }
+  .sim-wrap { padding: 1rem 0; }
+  .hero { background: linear-gradient(135deg, #0F6E56 0%, #185FA5 100%); border-radius: var(--border-radius-lg); padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; color: #fff; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .hero h1 { font-size: 18px; font-weight: 500; }
+  .hero p { font-size: 13px; opacity: 0.85; margin-top: 2px; }
+  .badge { background: rgba(255,255,255,0.2); border-radius: 20px; padding: 4px 14px; font-size: 12px; font-weight: 500; }
+  .controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 1.25rem; }
+  .ctrl-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--border-radius-lg); padding: 1rem; }
+  .ctrl-card label { font-size: 12px; color: var(--text2); display: block; margin-bottom: 6px; }
+  .ctrl-card .ctrl-val { font-size: 20px; font-weight: 500; color: var(--teal-dark); margin-bottom: 8px; }
+  .ctrl-card input[type=range] { width: 100%; }
+  .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 1.25rem; }
+  .metric { background: var(--bg2); border-radius: var(--border-radius-md); padding: 14px 1rem; text-align: center; position: relative; overflow: hidden; }
+  .metric::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .metric.teal::before { background: #1D9E75; }
+  .metric.blue::before { background: #378ADD; }
+  .metric.amber::before { background: #EF9F27; }
+  .metric.green::before { background: #639922; }
+  .metric .m-label { font-size: 11px; color: var(--text2); margin-bottom: 4px; }
+  .metric .m-val { font-size: 22px; font-weight: 500; color: var(--text); }
+  .metric .m-sub { font-size: 11px; color: var(--text2); margin-top: 2px; }
+  .metric .m-delta { font-size: 12px; font-weight: 500; margin-top: 4px; }
+  .delta-pos { color: #0F6E56; } .delta-neg { color: #A32D2D; }
+  .section { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--border-radius-lg); padding: 1.25rem; margin-bottom: 1.25rem; }
+  .section-title { font-size: 13px; font-weight: 500; color: var(--text2); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem; }
+  .tabs { display: flex; gap: 6px; margin-bottom: 1rem; flex-wrap: wrap; }
+  .tab-btn { padding: 6px 14px; border-radius: 20px; border: 0.5px solid var(--border); background: transparent; font-size: 13px; cursor: pointer; color: var(--text2); transition: all 0.15s; }
+  .tab-btn.active { background: #0F6E56; color: #fff; border-color: #0F6E56; }
+  .chart-wrap { position: relative; width: 100%; }
+  .lob-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .lob-card { background: var(--bg2); border-radius: var(--border-radius-md); padding: 1rem; }
+  .lob-title { font-size: 13px; font-weight: 500; margin-bottom: 12px; color: var(--teal-dark); }
+  .bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .bar-label { font-size: 12px; color: var(--text2); min-width: 60px; }
+  .bar-track { flex: 1; height: 8px; background: var(--bg); border-radius: 4px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 4px; transition: width 0.4s; }
+  .bar-pct { font-size: 12px; font-weight: 500; min-width: 36px; text-align: right; }
+  .bar-fill.before { background: #378ADD; }
+  .bar-fill.after { background: #1D9E75; }
+  .timeline { display: flex; gap: 0; overflow-x: auto; padding-bottom: 4px; }
+  .phase { flex: 1; min-width: 130px; padding: 12px; border-left: 2px solid var(--teal-light); position: relative; }
+  .phase:first-child { border-left: none; }
+  .phase-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--teal-mid); position: absolute; left: -6px; top: 14px; }
+  .phase:first-child .phase-dot { left: 0; position: static; margin-bottom: 6px; }
+  .phase-year { font-size: 11px; font-weight: 500; color: var(--teal-dark); }
+  .phase-name { font-size: 12px; font-weight: 500; margin: 2px 0; }
+  .phase-stat { font-size: 11px; color: var(--text2); }
+  .risk-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px; }
+  .risk-item { background: var(--bg2); border-radius: var(--border-radius-md); padding: 12px; }
+  .risk-name { font-size: 12px; font-weight: 500; margin-bottom: 6px; }
+  .risk-pills { display: flex; gap: 4px; flex-wrap: wrap; }
+  .pill { font-size: 10px; padding: 2px 8px; border-radius: 10px; }
+  .pill-med { background: #FAEEDA; color: #633806; }
+  .pill-low { background: #EAF3DE; color: #27500A; }
+  .pill-high { background: #FCEBEB; color: #501313; }
+  .pill-crit { background: #FCEBEB; color: #A32D2D; font-weight: 500; }
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 12px; color: var(--text2); margin-bottom: 8px; }
+  .legend span { display: flex; align-items: center; gap: 5px; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+  .roi-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 0.5px solid var(--border); }
+  .roi-row:last-child { border-bottom: none; }
+  .roi-icon { width: 32px; height: 32px; border-radius: var(--border-radius-md); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .roi-label { font-size: 13px; font-weight: 500; }
+  .roi-sub { font-size: 12px; color: var(--text2); }
+  .roi-val { margin-left: auto; font-size: 16px; font-weight: 500; color: var(--teal-dark); }
 </style>
 
-<div class="root">
-<div class="hdr">
-  <div class="hdr-t">BYJU's Conundrum — Old Model vs New Model Simulation</div>
-  <div class="hdr-s">Team Galacticos · IIM Jammu · The Finance Case Study · Adjust levers, watch the transformation</div>
-</div>
+<div class="sim-wrap">
 
-<div class="tabs">
-  <button class="tab on" onclick="go(0)">Old vs New Overview</button>
-  <button class="tab" onclick="go(1)">Revenue Comparison</button>
-  <button class="tab" onclick="go(2)">Unit Economics</button>
-  <button class="tab" onclick="go(3)">18-Month Roadmap</button>
-  <button class="tab" onclick="go(4)">Competitor Landscape</button>
-</div>
-
-<div class="g4" id="kpi-bar">
-  <div class="kpi"><div class="kl">Old Model Rev (FY22)</div><div class="kv neg">₹5,014 Cr</div><div class="kb neg">-164% EBITDA</div></div>
-  <div class="kpi"><div class="kl">New Model Rev (FY27)</div><div class="kv pos" id="k-newrev">—</div><div class="kb pos" id="k-newrev-g">—</div></div>
-  <div class="kpi"><div class="kl">LTV/CAC</div><div class="kv cy" id="k-ltvcac">—</div><div class="kb neg">Old: 0.82×</div></div>
-  <div class="kpi"><div class="kl">EBITDA turnaround</div><div class="kv pos" id="k-ebitda">—</div><div class="kb amb" id="k-be">break-even —</div></div>
-</div>
-
-<div id="p0">
-  <div class="g2">
-    <div class="card">
-      <div class="ct">New model levers</div>
-      <div class="sl"><div class="sh"><span class="sn">Revenue growth rate (YoY %)</span><span class="sv" id="lv-gr">35%</span></div><input type="range" min="10" max="70" value="35" step="1" oninput="L.gr=+this.value;upd()"></div>
-      <div class="sl"><div class="sh"><span class="sn">CAC — new model (₹)</span><span class="sv" id="lv-cac">1500</span></div><input type="range" min="500" max="11000" value="1500" step="100" oninput="L.cac=+this.value;upd()"></div>
-      <div class="sl"><div class="sh"><span class="sn">Monthly churn — new (%)</span><span class="sv" id="lv-churn">6%</span></div><input type="range" min="2" max="40" value="6" step="1" oninput="L.churn=+this.value;upd()"></div>
-      <div class="sl"><div class="sh"><span class="sn">Gross margin FY27 (%)</span><span class="sv" id="lv-gm">78%</span></div><input type="range" min="50" max="90" value="78" step="1" oninput="L.gm=+this.value;upd()"></div>
-      <div class="sl"><div class="sh"><span class="sn">Marketing % of revenue</span><span class="sv" id="lv-mkt">5.7%</span></div><input type="range" min="3" max="20" value="5.7" step="0.1" oninput="L.mkt=+this.value;upd()"></div>
-      <div class="sl"><div class="sh"><span class="sn">Teacher licenses (K units)</span><span class="sv" id="lv-teach">10</span></div><input type="range" min="1" max="30" value="10" step="1" oninput="L.teach=+this.value;upd()"></div>
+  <div class="hero">
+    <div>
+      <h1>GCC AI Transformation Simulator</h1>
+      <p>Team VIPRAN · IIM Jammu · Nexterity 2025 — Strategy Meets Spotlight</p>
     </div>
-    <div class="card">
-      <div class="ct">Old vs new — net loss / profit (₹ Cr)</div>
-      <div class="leg">
-        <span class="legi"><span class="legsq" style="background:#f43f5e"></span>Old model</span>
-        <span class="legi"><span class="legsq" style="background:#8b5cf6"></span>New model (projected)</span>
-      </div>
-      <div class="cw" style="height:220px"><canvas id="ch-compare"></canvas></div>
-    </div>
+    <div class="badge">Healthcare + Actuarial</div>
   </div>
 
-  <div class="g2">
-    <div class="card">
-      <div class="ct">Model DNA — what changed</div>
-      <div class="vs-row">
-        <div class="vs-box vs-old"><div class="vs-label neg">Old model (FY22)</div>
-          <div class="vs-stat">CAC: <strong style="color:#f43f5e">₹11,000</strong></div>
-          <div class="vs-stat">LTV: <strong style="color:#f43f5e">₹9,000</strong></div>
-          <div class="vs-stat">LTV/CAC: <strong style="color:#f43f5e">0.82×</strong></div>
-          <div class="vs-stat">Churn: <strong style="color:#f43f5e">33.3%/mo</strong></div>
-          <div class="vs-stat">Marketing: <strong style="color:#f43f5e">44.9% rev</strong></div>
-          <div class="vs-stat">Retention: <strong style="color:#f43f5e">3 months</strong></div>
-        </div>
-        <div class="vs-box vs-new"><div class="vs-label pos">New model (target)</div>
-          <div class="vs-stat">CAC: <strong class="pos" id="vs-cac">₹1,500</strong></div>
-          <div class="vs-stat">LTV: <strong class="pos" id="vs-ltv">₹54,000</strong></div>
-          <div class="vs-stat">LTV/CAC: <strong class="pos" id="vs-ratio">36×</strong></div>
-          <div class="vs-stat">Churn: <strong class="pos" id="vs-churn">6%/mo</strong></div>
-          <div class="vs-stat">Marketing: <strong class="pos" id="vs-mkt">5.7% rev</strong></div>
-          <div class="vs-stat">Retention: <strong class="pos" id="vs-ret">14 mo</strong></div>
-        </div>
+  <div class="controls">
+    <div class="ctrl-card">
+      <label>Total analysts in GCC</label>
+      <div class="ctrl-val" id="v-analysts">500</div>
+      <input type="range" min="100" max="2000" step="50" value="500" id="s-analysts" oninput="update()">
+    </div>
+    <div class="ctrl-card">
+      <label>Avg annual cost per analyst (₹ Lakhs)</label>
+      <div class="ctrl-val" id="v-cost">12</div>
+      <input type="range" min="5" max="30" step="1" value="12" id="s-cost" oninput="update()">
+    </div>
+    <div class="ctrl-card">
+      <label>Transformation phase</label>
+      <div class="ctrl-val" id="v-phase">Foundation (2025–26)</div>
+      <input type="range" min="1" max="4" step="1" value="1" id="s-phase" oninput="update()">
+    </div>
+    <div class="ctrl-card">
+      <label>LOB focus</label>
+      <div style="display:flex; gap:6px; margin-top:6px;">
+        <button class="tab-btn active" id="lob-both" onclick="setLOB('both')">Both</button>
+        <button class="tab-btn" id="lob-hc" onclick="setLOB('hc')">Healthcare</button>
+        <button class="tab-btn" id="lob-act" onclick="setLOB('act')">Actuarial</button>
       </div>
     </div>
-    <div class="card">
-      <div class="ct">EBITDA trajectory (₹ Cr)</div>
-      <div class="leg">
-        <span class="legi"><span class="legsq" style="background:#8b5cf6"></span>EBITDA</span>
-        <span class="legi"><span class="legsq" style="background:#06b6d4"></span>Gross margin %</span>
-      </div>
-      <div class="cw" style="height:210px"><canvas id="ch-ebitda"></canvas></div>
-    </div>
   </div>
-  <div class="insight" id="ins0"></div>
-</div>
 
-<div id="p1" style="display:none">
-  <div class="g2">
-    <div class="card">
-      <div class="ct">Revenue stream levers</div>
-      <div class="sl"><div class="sh"><span class="sn">B2C users (lakh)</span><span class="sv" id="lv-b2cu">20</span></div><input type="range" min="5" max="50" value="20" step="1" oninput="L.b2cu=+this.value;upd()"></div>
-      <div class="sl"><div class="sh"><span class="sn">ARPU/user/month (₹)</span><span class="sv" id="lv-arpu">3000</span></div><input type="range" min="499" max="5000" value="3000" step="100" oninput="L.arpu=+this.value;upd()"></div>
-      <div class="sl"><div class="sh"><span class="sn">Sachet users (lakh)</span><span class="sv" id="lv-sach">50</span></div><input type="range" min="10" max="200" value="50" step="5" oninput="L.sach=+this.value;upd()"></div>
-      <div class="sl"><div class="sh"><span class="sn">Teacher license fee (₹/mo)</span><span class="sv" id="lv-tfee">1500</span></div><input type="range" min="800" max="3000" value="1500" step="100" oninput="L.tfee=+this.value;upd()"></div>
-      <div class="sl"><div class="sh"><span class="sn">Aakash ring-fenced rev (₹ Cr)</span><span class="sv" id="lv-aak">3600</span></div><input type="range" min="500" max="6000" value="3600" step="100" oninput="L.aak=+this.value;upd()"></div>
-      <div class="sl"><div class="sh"><span class="sn">B2B revenue mix % (FY27)</span><span class="sv" id="lv-b2bmix">39%</span></div><input type="range" min="10" max="65" value="39" step="1" oninput="L.b2bmix=+this.value;upd()"></div>
-    </div>
-    <div class="card">
-      <div class="ct">Old upfront model vs new recurring streams</div>
-      <div class="leg">
-        <span class="legi"><span class="legsq" style="background:#f43f5e"></span>Old (B2C upfront only)</span>
-        <span class="legi"><span class="legsq" style="background:#8b5cf6"></span>B2C recurring</span>
-        <span class="legi"><span class="legsq" style="background:#06b6d4"></span>B2B licensing</span>
-        <span class="legi"><span class="legsq" style="background:#22c55e"></span>Aakash</span>
-      </div>
-      <div class="cw" style="height:220px"><canvas id="ch-streams"></canvas></div>
-    </div>
-  </div>
-  <div class="card" style="margin-bottom:12px">
-    <div class="ct">5-year financial summary (₹ Cr) — old baseline vs new model</div>
-    <div style="overflow-x:auto"><table class="tbl" id="tbl-rev"></table></div>
-  </div>
-  <div class="insight" id="ins1"></div>
-</div>
+  <div class="metrics-grid" id="kpi-cards"></div>
 
-<div id="p2" style="display:none">
-  <div class="g2">
-    <div class="card">
-      <div class="ct">Unit economics levers</div>
-      <div class="sl"><div class="sh"><span class="sn">CAC — new model (₹)</span><span class="sv" id="lv-cac2">1500</span></div><input type="range" min="500" max="11000" value="1500" step="100" oninput="L.cac=+this.value;upd()"></div>
-      <div class="sl"><div class="sh"><span class="sn">ARPU/month (₹)</span><span class="sv" id="lv-arpu2">3000</span></div><input type="range" min="499" max="5000" value="3000" step="100" oninput="L.arpu=+this.value;upd()"></div>
-      <div class="sl"><div class="sh"><span class="sn">Monthly churn (%)</span><span class="sv" id="lv-churn2">6%</span></div><input type="range" min="2" max="40" value="6" step="1" oninput="L.churn=+this.value;upd()"></div>
-      <div class="sl"><div class="sh"><span class="sn">Avg retention (months)</span><span class="sv" id="lv-ret">14</span></div><input type="range" min="1" max="30" value="14" step="1" oninput="L.ret=+this.value;upd()"></div>
+  <div class="section">
+    <div class="section-title">Workforce allocation shift</div>
+    <div class="tabs">
+      <button class="tab-btn active" id="tab-workload" onclick="setChart('workload')">Manual vs Strategic</button>
+      <button class="tab-btn" id="tab-tat" onclick="setChart('tat')">Turnaround Time</button>
+      <button class="tab-btn" id="tab-savings" onclick="setChart('savings')">Cost Savings</button>
     </div>
-    <div class="card">
-      <div class="ct">LTV/CAC — old vs new</div>
-      <div class="leg">
-        <span class="legi"><span class="legsq" style="background:#f43f5e"></span>Old model</span>
-        <span class="legi"><span class="legsq" style="background:#8b5cf6"></span>New model</span>
-      </div>
-      <div class="cw" style="height:220px"><canvas id="ch-ue"></canvas></div>
+    <div class="legend">
+      <span><span class="legend-dot" style="background:#378ADD"></span>Before</span>
+      <span><span class="legend-dot" style="background:#1D9E75"></span>After</span>
     </div>
+    <div class="chart-wrap" style="height:260px"><canvas id="mainChart"></canvas></div>
   </div>
-  <div class="g3">
-    <div class="card">
-      <div class="ct">Customer acquisition cost</div>
-      <div style="font-size:11px;color:var(--mut);margin-bottom:5px">Old model</div>
-      <div style="font-size:18px;font-weight:500;color:var(--rd)">₹11,000</div>
-      <div class="meter"><div class="mf" style="width:100%;background:var(--rd)"></div></div>
-      <div style="font-size:11px;color:var(--mut);margin:8px 0 5px">New model (educator-led)</div>
-      <div class="kv pos" id="ue-cac-new">₹1,500</div>
-      <div class="meter"><div class="mf" id="ue-cac-bar" style="background:var(--gr)"></div></div>
-    </div>
-    <div class="card">
-      <div class="ct">Lifetime value</div>
-      <div style="font-size:11px;color:var(--mut);margin-bottom:5px">Old model</div>
-      <div style="font-size:18px;font-weight:500;color:var(--rd)">₹9,000</div>
-      <div class="meter"><div class="mf" style="width:17%;background:var(--rd)"></div></div>
-      <div style="font-size:11px;color:var(--mut);margin:8px 0 5px">New model (18-mo retention)</div>
-      <div class="kv pos" id="ue-ltv-new">₹54,000</div>
-      <div class="meter"><div class="mf" id="ue-ltv-bar" style="background:var(--gr)"></div></div>
-    </div>
-    <div class="card">
-      <div class="ct">Users retained @ 12 months</div>
-      <div style="font-size:11px;color:var(--mut);margin-bottom:5px">Old model (33% churn)</div>
-      <div style="font-size:18px;font-weight:500;color:var(--rd)">~1 / 100</div>
-      <div class="meter"><div class="mf" style="width:1%;background:var(--rd)"></div></div>
-      <div style="font-size:11px;color:var(--mut);margin:8px 0 5px">New model</div>
-      <div class="kv pos" id="ue-ret12">~49 / 100</div>
-      <div class="meter"><div class="mf" id="ue-ret-bar" style="background:var(--gr)"></div></div>
-    </div>
-  </div>
-  <div class="insight" id="ins2"></div>
-</div>
 
-<div id="p3" style="display:none">
-  <div class="phase-strip">
-    <div class="ph ph1">
-      <div class="ph-t" style="color:#a78bfa">Phase 1 — Retrench (M1–M6)</div>
-      <div class="ph-d">Stop high-ticket tablet subs · Dismantle 10K telesales · 1-click refund policy · Use Aakash CF to service ₹1.2B debt</div>
-      <div style="margin-top:8px;font-size:10px;color:var(--bjg)">KPI: ₹0 brand spend · 90% drop in court cases · 100 beta teachers</div>
-    </div>
-    <div class="ph ph2">
-      <div class="ph-t" style="color:#38bdf8">Phase 2 — Pilot (M6–M12)</div>
-      <div class="ph-d">Launch BYJU's Connect B2B2C · Tier-2 pilots (Patna, Surat, Coimbatore) · Sachet pricing ₹99–₹499 · Bharat Creator Program</div>
-      <div style="margin-top:8px;font-size:10px;color:#38bdf8">KPI: 1,000 certified teachers · 30% loss reduction</div>
-    </div>
-    <div class="ph ph3">
-      <div class="ph-t" style="color:#4ade80">Phase 3 — Scale (M12–M18)</div>
-      <div class="ph-d">10K teachers nationwide · ₹18 Cr MRR from B2B · Shift to community-led growth · Predictive analytics rollout</div>
-      <div style="margin-top:8px;font-size:10px;color:#4ade80">KPI: 80% CAC drop · EBITDA break-even · LTV/CAC → 36×</div>
-    </div>
+  <div class="section">
+    <div class="section-title">LOB-level transformation detail</div>
+    <div class="lob-grid" id="lob-detail"></div>
   </div>
-  <div class="g2">
-    <div class="card">
-      <div class="ct">Phase-wise savings & revenue levers</div>
-      <div class="sl"><div class="sh"><span class="sn">Celebrity/FIFA spend cut (₹ Cr)</span><span class="sv" id="lv-cel">2251</span></div><input type="range" min="500" max="2500" value="2251" step="50" oninput="L.cel=+this.value;upd()"></div>
-      <div class="sl"><div class="sh"><span class="sn">COGS saved — halt tablet bundles (₹ Cr)</span><span class="sv" id="lv-cogs">1200</span></div><input type="range" min="200" max="2000" value="1200" step="50" oninput="L.cogs=+this.value;upd()"></div>
-      <div class="sl"><div class="sh"><span class="sn">Telesales dismantled (₹ Cr)</span><span class="sv" id="lv-tele">1400</span></div><input type="range" min="200" max="2000" value="1400" step="50" oninput="L.tele=+this.value;upd()"></div>
-      <div class="sl"><div class="sh"><span class="sn">Sachet uptake revenue (₹ Cr)</span><span class="sv" id="lv-sachu">400</span></div><input type="range" min="50" max="1000" value="400" step="50" oninput="L.sachu=+this.value;upd()"></div>
-      <div class="sl"><div class="sh"><span class="sn">Organic/community lift (₹ Cr)</span><span class="sv" id="lv-org">800</span></div><input type="range" min="100" max="2000" value="800" step="50" oninput="L.org=+this.value;upd()"></div>
-    </div>
-    <div class="card">
-      <div class="ct">Cash flow bridge — old burn to new position</div>
-      <div class="cw" style="height:260px"><canvas id="ch-cfbridge"></canvas></div>
-    </div>
-  </div>
-  <div class="insight" id="ins3"></div>
-</div>
 
-<div id="p4" style="display:none">
-  <div class="competitor-row">
-    <div class="cmp" style="border-color:#6d28d9">
-      <div class="cmp-name" style="color:#a78bfa">BYJU's — new model</div>
-      <div class="cmp-row"><span>Pricing</span><span class="cmp-val">₹99–₹1,500/mo</span></div>
-      <div class="cmp-row"><span>CAC</span><span class="cmp-val pos" id="cmp-cac">₹1,500</span></div>
-      <div class="cmp-row"><span>Growth model</span><span class="cmp-val">Educator-led B2B2C</span></div>
-      <div class="cmp-row"><span>Retention</span><span class="cmp-val pos" id="cmp-ret">12–14 mo</span></div>
-      <div class="cmp-row"><span>LTV/CAC</span><span class="cmp-val pos" id="cmp-ltvcac">36×</span></div>
-      <div class="cmp-row"><span>Revenue model</span><span class="cmp-val">SaaS + B2B licensing</span></div>
-      <div class="cmp-row"><span>Profitability</span><span class="cmp-val" id="cmp-profit">FY24 EBITDA+</span></div>
-      <div class="cmp-row"><span>Trust</span><span class="cmp-val pos">Rebuilding (1-click refund)</span></div>
-      <div style="margin-top:8px"><span class="badge b-amber">Turnaround</span></div>
+  <div class="section">
+    <div class="section-title">Phase roadmap & efficiency trajectory</div>
+    <div class="timeline" id="phase-timeline"></div>
+    <div class="chart-wrap" style="height:220px; margin-top:1rem"><canvas id="phaseChart"></canvas></div>
+  </div>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:1.25rem;">
+    <div class="section" style="margin-bottom:0">
+      <div class="section-title">ROI summary</div>
+      <div id="roi-rows"></div>
     </div>
-    <div class="cmp" style="border-color:#15803d">
-      <div class="cmp-name" style="color:#4ade80">Physics Wallah</div>
-      <div class="cmp-row"><span>Pricing</span><span class="cmp-val">₹500–₹5,000</span></div>
-      <div class="cmp-row"><span>CAC</span><span class="cmp-val pos">Low (organic)</span></div>
-      <div class="cmp-row"><span>Growth model</span><span class="cmp-val">Community-led</span></div>
-      <div class="cmp-row"><span>Retention</span><span class="cmp-val pos">High</span></div>
-      <div class="cmp-row"><span>LTV/CAC</span><span class="cmp-val pos">High</span></div>
-      <div class="cmp-row"><span>Revenue model</span><span class="cmp-val">Subscription-based</span></div>
-      <div class="cmp-row"><span>Profitability</span><span class="cmp-val pos">Positive / Sustainable</span></div>
-      <div class="cmp-row"><span>Trust</span><span class="cmp-val pos">Strong (student-first)</span></div>
-      <div style="margin-top:8px"><span class="badge b-green">Best-in-class</span></div>
-    </div>
-    <div class="cmp" style="border-color:#0369a1">
-      <div class="cmp-name" style="color:#38bdf8">Unacademy</div>
-      <div class="cmp-row"><span>Pricing</span><span class="cmp-val">₹5K–₹20K</span></div>
-      <div class="cmp-row"><span>CAC</span><span class="cmp-val amb">Medium (ads+educators)</span></div>
-      <div class="cmp-row"><span>Growth model</span><span class="cmp-val">Educator-led platform</span></div>
-      <div class="cmp-row"><span>Retention</span><span class="cmp-val amb">Medium</span></div>
-      <div class="cmp-row"><span>LTV/CAC</span><span class="cmp-val amb">Medium</span></div>
-      <div class="cmp-row"><span>Revenue model</span><span class="cmp-val">Subscription + courses</span></div>
-      <div class="cmp-row"><span>Profitability</span><span class="cmp-val amb">Improving</span></div>
-      <div class="cmp-row"><span>Trust</span><span class="cmp-val amb">Moderate</span></div>
-      <div style="margin-top:8px"><span class="badge b-amber">Stable</span></div>
+    <div class="section" style="margin-bottom:0">
+      <div class="section-title">Risk mitigation matrix</div>
+      <div class="risk-grid" id="risk-grid"></div>
     </div>
   </div>
-  <div class="g2">
-    <div class="card">
-      <div class="ct">Competitive positioning — CAC vs LTV/CAC ratio</div>
-      <div class="cw" style="height:220px"><canvas id="ch-pos"></canvas></div>
-    </div>
-    <div class="card">
-      <div class="ct">Market share opportunity — Tier 2/3 affordability model</div>
-      <div class="cw" style="height:220px"><canvas id="ch-market"></canvas></div>
-    </div>
-  </div>
-  <div class="insight" id="ins4"></div>
-</div>
+
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
-const L={gr:35,cac:1500,churn:6,gm:78,mkt:5.7,teach:10,b2cu:20,arpu:3000,sach:50,tfee:1500,aak:3600,b2bmix:39,ret:14,cel:2251,cogs:1200,tele:1400,sachu:400,org:800};
-const FY=['FY22','FY23','FY24','FY25','FY26','FY27'];
-let charts={};
-let panel=0;
+let lob = 'both';
+let chartMode = 'workload';
+let mainChartObj, phaseChartObj;
 
-function pct(v){return(Math.round(v*10)/10)+'%'}
-function cr(v){return'₹'+(v<0?'('+Math.round(Math.abs(v)).toLocaleString('en-IN')+')':Math.round(v).toLocaleString('en-IN'))+' Cr'}
-function fmtCr(v){return(v<0?'-':'')+'₹'+Math.abs(Math.round(v/100)/10)+'K Cr'}
+const phases = [
+  { year:'2025–26', name:'Foundation', manual:50, strategic:50, tat_hc:48, tat_act:8, saving:10 },
+  { year:'2027–28', name:'Scale', manual:35, strategic:65, tat_hc:30, tat_act:7, saving:22 },
+  { year:'2029', name:'Integrate', manual:30, strategic:70, tat_hc:24, tat_act:6, saving:28 },
+  { year:'2030', name:'Optimize', manual:20, strategic:80, tat_hc:18, tat_act:5, saving:35 },
+];
+const phaseNames = ['Foundation\n2025–26','Scale\n2027–28','Integrate\n2029','Optimize\n2030'];
 
-function calcPL(){
-  const gr=L.gr/100;
-  const revs=[5014,3200,4800,7500,11200,15800].map((b,i)=>{
-    if(i<3)return b;
-    return Math.round(b*(1+(gr-0.35)*i*0.35));
-  });
-  const b2c=revs.map((r,i)=>Math.round(r*[1,.5625,.5,.4267,.4018,.38][i]));
-  const b2bR=revs.map((r,i)=>i===0?0:Math.round(r*(L.b2bmix/100)));
-  const aakR=revs.map((r,i)=>i===0?0:Math.round(r*(1-L.b2bmix/100)*0.2));
-  const gmPct=[58,65,70,72,75,L.gm];
-  const gm=revs.map((r,i)=>Math.round(r*gmPct[i]/100));
-  const mktArr=revs.map((r,i)=>Math.round(r*[44.9,10,10,8,6.7,L.mkt][i]/100));
-  const emp=[3800,1800,1900,2200,2800,Math.round(L.teach*340)];
-  const debt=[0,580,840,900,750,500];
-  const ebitda=revs.map((r,i)=>gm[i]-mktArr[i]-emp[i]-debt[i]);
-  const net=ebitda.map((e,i)=>e-[0,330,340,900,900,1200][i]);
-  return{revs,b2c,b2bR,aakR,gm,gmPct,mktArr,emp,ebitda,net};
+const lobData = {
+  hc:  { before_manual:70, after_manual:30, before_tat:72, after_tat:24, before_strat:30, after_strat:70, waste:'Searching, waiting, rework', pain:'500+ unstructured PDFs per query' },
+  act: { before_manual:65, after_manual:25, before_tat:336, after_tat:120, before_strat:35, after_strat:75, waste:'Data cleaning, duplication, overprocessing', pain:'Manual mortality table updates & reconciliation' },
+};
+
+function getPhaseIdx() { return parseInt(document.getElementById('s-phase').value) - 1; }
+function getAnalysts() { return parseInt(document.getElementById('s-analysts').value); }
+function getCost() { return parseInt(document.getElementById('s-cost').value); }
+
+function getActive() {
+  if (lob === 'hc') return [lobData.hc];
+  if (lob === 'act') return [lobData.act];
+  return [lobData.hc, lobData.act];
 }
 
-function calcUE(){
-  const ltv=Math.round(L.arpu*L.ret);
-  const ratio=Math.round(ltv/L.cac*10)/10;
-  const payback=Math.round(L.cac/L.arpu*10)/10;
-  const r12=Math.round(100*Math.pow(1-L.churn/100,12));
-  return{ltv,ratio,payback,r12};
+function avgStat(key) {
+  const arr = getActive();
+  return Math.round(arr.reduce((s,d)=>s+d[key],0)/arr.length);
 }
 
-function calcCF(){
-  const b2barr=Math.round(L.teach*1000*L.tfee*12/1e7);
-  const saved=L.cel+L.cogs+L.tele;
-  const newRev=L.sachu+L.org+b2barr;
-  const net=-8245+saved+newRev;
-  return{saved,newRev,net,b2barr,
-    items:[
-      {l:'FY22 opening loss',v:-8245,c:'#f43f5e'},
-      {l:'Cut celebrity spend',v:L.cel,c:'#8b5cf6'},
-      {l:'Halt tablet COGS',v:L.cogs,c:'#8b5cf6'},
-      {l:'Dismantle telesales',v:L.tele,c:'#8b5cf6'},
-      {l:'Sachet pricing',v:L.sachu,c:'#06b6d4'},
-      {l:'Organic lift',v:L.org,c:'#06b6d4'},
-      {l:'B2B licensing ARR',v:b2barr,c:'#22c55e'},
-      {l:'Net position',v:net,c:net>=0?'#22c55e':'#f59e0b'},
-    ]};
+function setLOB(v) {
+  lob = v;
+  ['lob-both','lob-hc','lob-act'].forEach(id=>document.getElementById(id).classList.remove('active'));
+  document.getElementById('lob-'+v).classList.add('active');
+  update();
 }
 
-function mk(id,cfg){
-  if(charts[id])charts[id].destroy();
-  const c=document.getElementById(id);
-  if(!c)return;
-  charts[id]=new Chart(c.getContext('2d'),cfg);
+function setChart(v) {
+  chartMode = v;
+  ['tab-workload','tab-tat','tab-savings'].forEach(id=>document.getElementById(id).classList.remove('active'));
+  document.getElementById('tab-'+v).classList.add('active');
+  buildMainChart();
 }
 
-function setv(id,val){const el=document.getElementById(id);if(el)el.textContent=val;}
+function update() {
+  const pi = getPhaseIdx();
+  const ph = phases[pi];
+  const analysts = getAnalysts();
+  const cost = getCost();
+  document.getElementById('v-analysts').textContent = analysts;
+  document.getElementById('v-cost').textContent = cost;
+  document.getElementById('v-phase').textContent = ph.name + ' (' + ph.year + ')';
 
-function upd(){
-  const pl=calcPL();const ue=calcUE();const cf=calcCF();
+  const bm = avgStat('before_manual');
+  const am = avgStat('after_manual') * (ph.manual/50);
+  const btat_hc = lobData.hc.before_tat, atat_hc = lobData.hc.after_tat * (ph.tat_hc/48);
+  const btat_act = lobData.act.before_tat, atat_act = lobData.act.after_tat * (ph.tat_act/8);
+  const manualReduction = Math.round((bm - am)/bm*100);
+  const stratGain = avgStat('after_strat') - avgStat('before_strat');
+  const totalCost = analysts * cost;
+  const savedFTE = Math.round(analysts * (bm - am)/100);
+  const moneySaved = Math.round(savedFTE * cost * ph.saving/35);
+  const prodGain = Math.round(stratGain * 1.23);
 
-  const rev27=pl.revs[5];
-  setv('k-newrev','₹'+Math.round(rev27/100)/10+'K Cr');
-  setv('k-newrev-g','+'+Math.round((rev27/pl.revs[4]-1)*100)+'% vs FY26');
-  const ltvRatioStr=ue.ratio+'×';
-  setv('k-ltvcac',ltvRatioStr);
-  const eb27=pl.ebitda[5];const ebm=Math.round(eb27/rev27*1000)/10;
-  setv('k-ebitda','₹'+Math.round(eb27/100)/10+'K Cr ('+ebm+'%)');
-  const be=pl.ebitda[2]>=0?'FY24':pl.ebitda[3]>=0?'FY25':'FY26+';
-  setv('k-be','Break-even: '+be);
+  const cards = [
+    { label:'Manual work reduction', val: manualReduction + '%', sub:'vs baseline', cls:'teal', delta:'+'+manualReduction+'% efficiency', pos:true },
+    { label:'Strategic output gain', val: prodGain + '%', sub:'combined impact', cls:'blue', delta:'Mandate exceeded', pos:true },
+    { label:'FTEs redeployed', val: savedFTE.toLocaleString(), sub:'to strategic roles', cls:'amber', delta: Math.round(savedFTE/analysts*100)+'% of workforce', pos:true },
+    { label:'Annual cost savings', val: '₹'+moneySaved+'Cr', sub:'estimated', cls:'green', delta:'Payback: 18–24 months', pos:true },
+    { label:'HC TAT (hours)', val: Math.round(atat_hc)+'h', sub:'was '+btat_hc+'h', cls:'teal', delta:'-'+Math.round((btat_hc-atat_hc)/btat_hc*100)+'%', pos:true },
+    { label:'Act TAT (days)', val: Math.round(atat_act/24)+'d', sub:'was 14d', cls:'blue', delta:'-'+Math.round((btat_act-atat_act)/btat_act*100)+'%', pos:true },
+    { label:'Knowledge reuse', val: '60%+', sub:'cross-LOB shared', cls:'amber', delta:'Was 0%', pos:true },
+    { label:'Total GCC cost pool', val:'₹'+Math.round(totalCost/100)+'Cr', sub: analysts+' analysts', cls:'green', delta:'Savings target: '+ph.saving+'%', pos:true },
+  ];
 
-  setv('vs-cac','₹'+Math.round(L.cac).toLocaleString('en-IN'));
-  setv('vs-ltv','₹'+Math.round(ue.ltv).toLocaleString('en-IN'));
-  setv('vs-ratio',ue.ratio+'×');
-  setv('vs-churn',pct(L.churn));
-  setv('vs-mkt',pct(L.mkt));
-  setv('vs-ret',Math.round(L.ret)+' mo');
+  document.getElementById('kpi-cards').innerHTML = cards.map(c=>`
+    <div class="metric ${c.cls}">
+      <div class="m-label">${c.label}</div>
+      <div class="m-val">${c.val}</div>
+      <div class="m-sub">${c.sub}</div>
+      <div class="m-delta ${c.pos?'delta-pos':'delta-neg'}">${c.delta}</div>
+    </div>
+  `).join('');
 
-  ['lv-gr','lv-cac','lv-cac2','lv-churn','lv-churn2','lv-gm','lv-mkt'].forEach(id=>{
-    const el=document.getElementById(id);if(!el)return;
-    if(id.includes('cac'))el.textContent=Math.round(L.cac).toLocaleString('en-IN');
-    else if(id.includes('churn'))el.textContent=pct(L.churn);
-    else if(id==='lv-gm')el.textContent=pct(L.gm);
-    else if(id==='lv-mkt')el.textContent=pct(L.mkt);
-    else el.textContent=pct(L.gr);
-  });
-  ['lv-teach','lv-b2cu','lv-sach'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=id==='lv-teach'?L.teach+'K':L[id.replace('lv-','')]+'L';});
-  ['lv-arpu','lv-arpu2','lv-tfee','lv-aak'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=Math.round(L[id==='lv-arpu2'?'arpu':id==='lv-tfee'?'tfee':id==='lv-aak'?'aak':'arpu']).toLocaleString('en-IN');});
-  setv('lv-b2bmix',Math.round(L.b2bmix)+'%');
-  setv('lv-ret',Math.round(L.ret)+' mo');
-  ['lv-cel','lv-cogs','lv-tele','lv-sachu','lv-org'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=Math.round(L[id.replace('lv-','')]).toLocaleString('en-IN');});
+  buildLOBDetail(pi);
+  buildTimeline(pi);
+  buildMainChart();
+  buildPhaseChart(pi);
+  buildROI(moneySaved, savedFTE, analysts, cost);
+}
 
-  if(panel===0){
-    const oldNet=[-8245,-950,-200,800,3200,6800];
-    mk('ch-compare',{type:'bar',data:{labels:FY,datasets:[
-      {label:'Old model',data:oldNet,backgroundColor:oldNet.map(v=>v<0?'#f43f5e99':'#f43f5e55'),borderColor:'#f43f5e',borderWidth:1,borderRadius:3},
-      {label:'New model',data:pl.net,backgroundColor:pl.net.map(v=>v<0?'#8b5cf699':'#8b5cf655'),borderColor:'#8b5cf6',borderWidth:1,borderRadius:3}
-    ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{
-      x:{grid:{display:false},ticks:{color:'#9b8fd4',font:{size:9}}},
-      y:{grid:{color:'#4c3d7a44'},ticks:{color:'#9b8fd4',font:{size:9},callback:v=>fmtCr(v)}}
-    }}});
-    mk('ch-ebitda',{type:'bar',data:{labels:FY,datasets:[
-      {label:'EBITDA',data:pl.ebitda,backgroundColor:pl.ebitda.map(v=>v<0?'#f43f5e99':'#8b5cf699'),borderColor:pl.ebitda.map(v=>v<0?'#f43f5e':'#8b5cf6'),borderWidth:1,borderRadius:3,yAxisID:'y'},
-      {label:'Gross Margin %',data:pl.gmPct,type:'line',borderColor:'#06b6d4',borderWidth:2,pointRadius:3,fill:false,tension:.3,yAxisID:'y2'}
-    ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{
-      y:{grid:{color:'#4c3d7a44'},ticks:{color:'#9b8fd4',font:{size:9},callback:v=>fmtCr(v)},position:'left'},
-      y2:{grid:{display:false},ticks:{color:'#06b6d4',font:{size:9},callback:v=>Math.round(v)+'%'},position:'right'},
-      x:{grid:{display:false},ticks:{color:'#9b8fd4',font:{size:9}}}
-    }}});
-    const saved=L.cel+L.cogs+L.tele+L.sachu+L.org;
-    document.getElementById('ins0').innerHTML=`<strong>Old model destroyed ₹8,245 Cr</strong> in FY22 with 44.9% marketing spend and 0.82× LTV/CAC. New model targets <strong>LTV/CAC of ${ue.ratio}×</strong> via educator-led CAC of ₹${Math.round(L.cac).toLocaleString('en-IN')}, ${pct(L.churn)} monthly churn, and ${pct(L.gm)} gross margins by FY27. Phase 1 alone recovers ₹${Math.round(L.cel+L.cogs+L.tele).toLocaleString('en-IN')} Cr. EBITDA break-even: <strong>${be}</strong>.`;
-  }
+function buildMainChart() {
+  const pi = getPhaseIdx();
+  const ph = phases[pi];
+  const ctx = document.getElementById('mainChart').getContext('2d');
+  if (mainChartObj) mainChartObj.destroy();
+  let labels, before, after, label1, label2, unit;
 
-  if(panel===1){
-    const oldRevs=[5014,0,0,0,0,0];
-    mk('ch-streams',{type:'bar',data:{labels:FY,datasets:[
-      {label:'Old B2C upfront',data:oldRevs,backgroundColor:'#f43f5e55',borderColor:'#f43f5e',borderWidth:1,borderRadius:3,stack:'old'},
-      {label:'B2C recurring',data:pl.b2c,backgroundColor:'#8b5cf699',borderColor:'#8b5cf6',borderWidth:1,borderRadius:3,stack:'new'},
-      {label:'B2B licensing',data:pl.b2bR,backgroundColor:'#06b6d499',borderColor:'#06b6d4',borderWidth:1,borderRadius:3,stack:'new'},
-      {label:'Aakash',data:pl.aakR,backgroundColor:'#22c55e99',borderColor:'#22c55e',borderWidth:1,borderRadius:3,stack:'new'},
-    ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{
-      x:{grid:{display:false},ticks:{color:'#9b8fd4',font:{size:9}},stacked:true},
-      y:{grid:{color:'#4c3d7a44'},ticks:{color:'#9b8fd4',font:{size:9},callback:v=>fmtCr(v)},stacked:true}
-    }}});
-    const rows=[
-      {l:'Total Revenue',d:pl.revs,cls:()=>'tpos'},
-      {l:'Old model EBITDA',d:[-8245,-950,-200,800,3200,6800],cls:v=>v<0?'tneg':'tpos'},
-      {l:'New model EBITDA',d:pl.ebitda,cls:v=>v<0?'tneg':'tpos'},
-      {l:'Gross Margin %',d:pl.gmPct,fmt:v=>pct(v),cls:()=>''},
-      {l:'Mktg % Revenue',d:pl.mktArr.map((v,i)=>Math.round(v/pl.revs[i]*100*10)/10),fmt:v=>pct(v),cls:()=>'tamb'},
+  if (chartMode === 'workload') {
+    labels = ['Healthcare manual%','Healthcare strategic%','Actuarial manual%','Actuarial strategic%'];
+    before = [70,30,65,35];
+    after = [
+      Math.round(30*(ph.manual/50)), Math.round(70*(ph.strategic/50)),
+      Math.round(25*(ph.manual/50)), Math.round(75*(ph.strategic/50))
     ];
-    let html='<tr><th>Metric</th>'+FY.map(f=>'<th>'+f+'</th>').join('')+'</tr>';
-    html+=rows.map(r=>'<tr><td>'+r.l+'</td>'+r.d.map((v,i)=>'<td class="'+(r.cls?r.cls(v):'')+'">'+(r.fmt?r.fmt(v):Math.round(v).toLocaleString('en-IN'))+'</td>').join('')+'</tr>').join('');
-    document.getElementById('tbl-rev').innerHTML=html;
-    const b2barr=Math.round(L.teach*1000*L.tfee*12/1e7);
-    document.getElementById('ins1').innerHTML=`<strong>Revenue model transformation:</strong> Old model = ₹5,014 Cr from upfront multi-year tablet bundles with flood of refunds. New model diversifies into B2B licensing (${L.teach}K teachers × ₹${L.tfee.toLocaleString('en-IN')}/mo = <strong>₹${b2barr} Cr ARR</strong>), B2C recurring at ₹${Math.round(L.arpu).toLocaleString('en-IN')}/mo, sachet (₹99–₹499), and Aakash ring-fenced at ₹${L.aak} Cr. FY27 total: <strong>₹${Math.round(pl.revs[5]).toLocaleString('en-IN')} Cr</strong>.`;
+    unit='%';
+  } else if (chartMode === 'tat') {
+    labels = ['HC TAT (hrs)','Actuarial TAT (hrs)'];
+    before = [72,336];
+    after = [Math.round(24*(ph.tat_hc/48)), Math.round(120*(ph.tat_act/8))];
+    unit='h';
+  } else {
+    labels = ['Phase 1','Phase 2','Phase 3','Phase 4'];
+    before = [0,0,0,0];
+    after = [10,22,28,35];
+    unit='%';
   }
 
-  if(panel===2){
-    const oldMetrics={cac:11000,ltv:9000,ratio:0.82,r12:1};
-    mk('ch-ue',{type:'bar',data:{labels:['CAC (₹)','LTV (₹)','LTV/CAC ×100','Users @ 12mo'],datasets:[
-      {label:'Old model',data:[oldMetrics.cac,oldMetrics.ltv,Math.round(oldMetrics.ratio*100),oldMetrics.r12],backgroundColor:'#f43f5e55',borderColor:'#f43f5e',borderWidth:1,borderRadius:3},
-      {label:'New model',data:[L.cac,ue.ltv,Math.round(ue.ratio*100),ue.r12],backgroundColor:'#8b5cf655',borderColor:'#8b5cf6',borderWidth:1,borderRadius:3},
-    ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{
-      x:{grid:{display:false},ticks:{color:'#9b8fd4',font:{size:9}}},
-      y:{grid:{color:'#4c3d7a44'},ticks:{color:'#9b8fd4',font:{size:9}}}
-    }}});
-    setv('ue-cac-new','₹'+Math.round(L.cac).toLocaleString('en-IN'));
-    setv('ue-ltv-new','₹'+Math.round(ue.ltv).toLocaleString('en-IN'));
-    setv('ue-ret12','~'+ue.r12+' / 100');
-    const cacBarW=Math.min(100,Math.round(L.cac/11000*100));
-    const ltvBarW=Math.min(100,Math.round(ue.ltv/54000*100));
-    const retBarW=Math.min(100,ue.r12);
-    const cacEl=document.getElementById('ue-cac-bar');if(cacEl)cacEl.style.width=cacBarW+'%';
-    const ltvEl=document.getElementById('ue-ltv-bar');if(ltvEl)ltvEl.style.width=ltvBarW+'%';
-    const retEl=document.getElementById('ue-ret-bar');if(retEl)retEl.style.width=retBarW+'%';
-    setv('lv-arpu2',Math.round(L.arpu).toLocaleString('en-IN'));
-    setv('lv-cac2',Math.round(L.cac).toLocaleString('en-IN'));
-    setv('lv-churn2',pct(L.churn));
-    setv('lv-ret',Math.round(L.ret)+' mo');
-    document.getElementById('ins2').innerHTML=`<strong>Unit economics flip:</strong> Old model had CAC of ₹11,000 vs LTV ₹9,000 = <strong>0.82× (destroys value every acquisition)</strong>. New model: CAC ₹${Math.round(L.cac).toLocaleString('en-IN')} via educator-led acquisition, LTV ₹${Math.round(ue.ltv).toLocaleString('en-IN')} at ${Math.round(L.ret)}-month retention. Ratio: <strong>${ue.ratio}×</strong> (target 36×). At ${pct(L.churn)} monthly churn, ${ue.r12} of 100 users stay 12 months vs just ~1 under 33% churn. CAC payback: ${ue.payback} months.`;
-  }
-
-  if(panel===3){
-    const items=cf.items;
-    mk('ch-cfbridge',{type:'bar',data:{labels:items.map(i=>i.l),datasets:[{data:items.map(i=>i.v),backgroundColor:items.map(i=>i.c+'99'),borderColor:items.map(i=>i.c),borderWidth:1,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>cr(c.raw)}}},scales:{x:{grid:{color:'#4c3d7a44'},ticks:{color:'#9b8fd4',font:{size:9},callback:v=>fmtCr(v)}},y:{grid:{display:false},ticks:{color:'#9b8fd4',font:{size:9}}}}}});
-    document.getElementById('ins3').innerHTML=`<strong>18-month cash bridge:</strong> Phase 1 cost cuts (celebrity ₹${L.cel.toLocaleString('en-IN')} Cr + COGS ₹${L.cogs.toLocaleString('en-IN')} Cr + telesales ₹${L.tele.toLocaleString('en-IN')} Cr) = <strong>₹${Math.round(L.cel+L.cogs+L.tele).toLocaleString('en-IN')} Cr freed</strong>. Phase 2–3 new revenue (sachet + organic + B2B) adds ₹${Math.round(cf.newRev).toLocaleString('en-IN')} Cr. Net position vs FY22 baseline: <strong style="color:${cf.net>=0?'#22c55e':'#f59e0b'}">₹${Math.round(cf.net).toLocaleString('en-IN')} Cr</strong>. Aakash's stable CF services the ₹1.2B Term Loan B through all phases.`;
-  }
-
-  if(panel===4){
-    setv('cmp-cac','₹'+Math.round(L.cac).toLocaleString('en-IN'));
-    setv('cmp-ret',Math.round(L.ret)+' mo');
-    setv('cmp-ltvcac',ue.ratio+'×');
-    setv('cmp-profit',pl.ebitda[2]>=0?'FY24 EBITDA+':pl.ebitda[3]>=0?'FY25 EBITDA+':'FY26+ EBITDA+');
-    mk('ch-pos',{type:'bubble',data:{datasets:[
-      {label:"BYJU's new",data:[{x:L.cac/1000,y:ue.ratio,r:12}],backgroundColor:'#8b5cf677',borderColor:'#8b5cf6'},
-      {label:"BYJU's old",data:[{x:11,y:0.82,r:18}],backgroundColor:'#f43f5e55',borderColor:'#f43f5e'},
-      {label:"PW",data:[{x:0.5,y:40,r:14}],backgroundColor:'#22c55e55',borderColor:'#22c55e'},
-      {label:"Unacademy",data:[{x:4,y:15,r:10}],backgroundColor:'#06b6d455',borderColor:'#06b6d4'},
-    ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label+': CAC ₹'+Math.round(c.raw.x*1000)+'K, LTV/CAC '+c.raw.y+'×'}}},scales:{
-      x:{title:{display:true,text:'CAC (₹K)',color:'#9b8fd4',font:{size:9}},grid:{color:'#4c3d7a44'},ticks:{color:'#9b8fd4',font:{size:9}}},
-      y:{title:{display:true,text:'LTV/CAC ratio',color:'#9b8fd4',font:{size:9}},grid:{color:'#4c3d7a44'},ticks:{color:'#9b8fd4',font:{size:9}},min:0,max:50}
-    }}});
-    mk('ch-market',{type:'doughnut',data:{labels:['Tier 2/3 untapped (BYJU new)','Physics Wallah','Unacademy','BYJU old premium','Other'],datasets:[{data:[40,25,15,10,10],backgroundColor:['#8b5cf699','#22c55e99','#06b6d499','#f43f5e99','#6b728099'],borderColor:['#8b5cf6','#22c55e','#06b6d4','#f43f5e','#6b7280'],borderWidth:1}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'right',labels:{color:'#9b8fd4',font:{size:9},boxWidth:8,padding:4}}}}});
-    document.getElementById('ins4').innerHTML=`<strong>Competitive edge:</strong> Physics Wallah dominates on CAC efficiency and trust — BYJU's new model must compete via its <strong>data moat</strong> (100M+ users, 8 years structured K-12 data) and B2B2C educator ecosystem. At CAC ₹${Math.round(L.cac).toLocaleString('en-IN')} vs PW's organic model, BYJU's can win Tier 2/3 through teacher licensing that PW cannot replicate at scale. The 40% untapped affordable market is the strategic prize.`;
-  }
+  mainChartObj = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        { label:'Before', data: before, backgroundColor:'#378ADD', borderRadius:4 },
+        { label:'After', data: after, backgroundColor:'#1D9E75', borderRadius:4 }
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label: c=>c.dataset.label+': '+c.raw+unit } } },
+      scales:{
+        x:{ grid:{color:'rgba(128,128,128,0.1)'}, ticks:{color:'#888', font:{size:11}} },
+        y:{ grid:{color:'rgba(128,128,128,0.1)'}, ticks:{color:'#888', font:{size:11}, callback:v=>v+unit} }
+      }
+    }
+  });
 }
 
-function go(p){
-  panel=p;
-  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('on',i===p));
-  for(let i=0;i<5;i++)document.getElementById('p'+i).style.display=i===p?'block':'none';
-  upd();
+function buildLOBDetail(pi) {
+  const ph = phases[pi];
+  const items = [
+    { name:'Healthcare', key:'hc', color:'#378ADD' },
+    { name:'Actuarial', key:'act', color:'#1D9E75' },
+  ];
+  document.getElementById('lob-detail').innerHTML = items.map(it=>{
+    const d = lobData[it.key];
+    const am = Math.round(d.after_manual*(ph.manual/50));
+    const as_ = 100-am;
+    return `
+    <div class="lob-card">
+      <div class="lob-title" style="color:${it.color}">${it.name} LOB</div>
+      <div class="bar-row"><span class="bar-label">Manual</span>
+        <div class="bar-track"><div class="bar-fill before" style="width:${d.before_manual}%"></div></div>
+        <span class="bar-pct" style="color:#378ADD">${d.before_manual}%</span>
+      </div>
+      <div class="bar-row"><span class="bar-label">→ After</span>
+        <div class="bar-track"><div class="bar-fill after" style="width:${am}%"></div></div>
+        <span class="bar-pct" style="color:#1D9E75">${am}%</span>
+      </div>
+      <div class="bar-row"><span class="bar-label">Strategic</span>
+        <div class="bar-track"><div class="bar-fill before" style="width:${d.before_strat}%"></div></div>
+        <span class="bar-pct" style="color:#378ADD">${d.before_strat}%</span>
+      </div>
+      <div class="bar-row"><span class="bar-label">→ After</span>
+        <div class="bar-track"><div class="bar-fill after" style="width:${as_}%"></div></div>
+        <span class="bar-pct" style="color:#1D9E75">${as_}%</span>
+      </div>
+      <div style="margin-top:8px;font-size:11px;color:var(--color-text-secondary)">Pain: ${d.pain}</div>
+    </div>`;
+  }).join('');
 }
 
-upd();
+function buildTimeline(pi) {
+  document.getElementById('phase-timeline').innerHTML = phases.map((ph,i)=>`
+    <div class="phase" style="opacity:${i===pi?1:0.55}; border-left: 2px solid ${i===pi?'#1D9E75':'#9FE1CB'}">
+      ${i>0?'<div class="phase-dot"></div>':''}
+      <div class="phase-year" style="color:${i===pi?'#0F6E56':'#1D9E75'}">${ph.year}</div>
+      <div class="phase-name" style="font-weight:${i===pi?'500':'400'}">${ph.name}</div>
+      <div class="phase-stat">Manual: ${ph.manual}% → ${100-ph.manual}% strategic</div>
+      <div class="phase-stat">Savings: ~${ph.saving}%</div>
+    </div>
+  `).join('');
+}
+
+function buildPhaseChart(pi) {
+  const ctx2 = document.getElementById('phaseChart').getContext('2d');
+  if (phaseChartObj) phaseChartObj.destroy();
+  phaseChartObj = new Chart(ctx2, {
+    type:'line',
+    data:{
+      labels:['Baseline','Foundation\n25-26','Scale\n27-28','Integrate\n29','Optimize\n2030'],
+      datasets:[
+        { label:'Manual work %', data:[67,50,35,30,20], borderColor:'#378ADD', backgroundColor:'rgba(55,138,221,0.1)', tension:0.4, fill:true, pointBackgroundColor:'#378ADD', pointRadius:5 },
+        { label:'Strategic work %', data:[33,50,65,70,80], borderColor:'#1D9E75', backgroundColor:'rgba(29,158,117,0.1)', tension:0.4, fill:true, pointBackgroundColor:phases.map((_,i)=>i===pi?'#0F6E56':'#1D9E75'), pointRadius:phases.map((_,i)=>i===pi?8:5) },
+        { label:'Cost savings %', data:[0,10,22,28,35], borderColor:'#EF9F27', backgroundColor:'rgba(239,159,39,0.05)', tension:0.4, borderDash:[5,4], pointBackgroundColor:'#EF9F27', pointRadius:5 }
+      ]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label:c=>c.dataset.label+': '+c.raw+'%' } } },
+      scales:{
+        x:{ grid:{color:'rgba(128,128,128,0.1)'}, ticks:{color:'#888',font:{size:11}} },
+        y:{ min:0, max:100, grid:{color:'rgba(128,128,128,0.1)'}, ticks:{color:'#888',font:{size:11},callback:v=>v+'%'} }
+      }
+    }
+  });
+}
+
+function buildROI(saved, fte, analysts, cost) {
+  const rows = [
+    { icon:'📈', label:'Mandate achievement', sub:'25% target → 30–35% delivered', val:'+8 pts', bg:'#E1F5EE' },
+    { icon:'⏱', label:'Payback period', sub:'Phase 1 investment', val:'18–24 mo', bg:'#E6F1FB' },
+    { icon:'💰', label:'Estimated annual saving', sub:'Cross-LOB duplication eliminated', val:'₹'+saved+'Cr', bg:'#EAF3DE' },
+    { icon:'👥', label:'FTEs redeployed', sub:'Data processor → insight strategist', val:fte.toLocaleString(), bg:'#FAEEDA' },
+    { icon:'🔗', label:'Cross-LOB knowledge reuse', sub:'Was 0% — now 60%+', val:'60%+', bg:'#E1F5EE' },
+  ];
+  document.getElementById('roi-rows').innerHTML = rows.map(r=>`
+    <div class="roi-row">
+      <div class="roi-icon" style="background:${r.bg}">${r.icon}</div>
+      <div><div class="roi-label">${r.label}</div><div class="roi-sub">${r.sub}</div></div>
+      <div class="roi-val">${r.val}</div>
+    </div>
+  `).join('');
+}
+
+function buildRiskGrid() {
+  const risks = [
+    { name:'AI hallucination', prob:'Medium', impact:'High', mit:'Layer-2 validation + human approval' },
+    { name:'Data privacy breach', prob:'Low', impact:'Critical', mit:'End-to-end encryption, GDPR/DDP' },
+    { name:'Employee resistance', prob:'High', impact:'Medium', mit:'ADKAR model, phased rollout' },
+    { name:'Regulatory non-compliance', prob:'Medium', impact:'Critical', mit:'Automated compliance dashboard' },
+    { name:'Technology downtime', prob:'Low', impact:'High', mit:'Redundant infra + 99.9% SLA' },
+  ];
+  const pClass = p => p==='High'?'pill-high':p==='Medium'?'pill-med':'pill-low';
+  const iClass = i => i==='Critical'?'pill-crit':i==='High'?'pill-high':'pill-med';
+  document.getElementById('risk-grid').innerHTML = risks.map(r=>`
+    <div class="risk-item">
+      <div class="risk-name">${r.name}</div>
+      <div class="risk-pills">
+        <span class="pill ${pClass(r.prob)}">${r.prob}</span>
+        <span class="pill ${iClass(r.impact)}">${r.impact}</span>
+      </div>
+      <div style="font-size:11px;color:var(--color-text-secondary);margin-top:5px">${r.mit}</div>
+    </div>
+  `).join('');
+}
+
+buildRiskGrid();
+update();
 </script>
